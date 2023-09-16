@@ -8,12 +8,10 @@ const config = (filenames) => {
   try {
     const relativePaths = filenames.map((f) => path.relative(cwd, f));
 
-    const eslintFilePaths = relativePaths.filter((f) => eslintFileNameRegex.test(f));
+    const commands = [`prettier --write --ignore-unknown ${relativePaths.join(" ")}`];
 
-    const commands = [
-      `next lint --fix --file ${eslintFilePaths.join(" --file ")}`,
-      `prettier --write --ignore-unknown ${relativePaths.join(" ")}`,
-    ];
+    const eslintFilePaths = relativePaths.filter((f) => eslintFileNameRegex.test(f));
+    if (eslintFilePaths.length) commands.unshift(`next lint --fix --file ${eslintFilePaths.join(" --file ")}`);
 
     return commands;
   } catch (error) {
