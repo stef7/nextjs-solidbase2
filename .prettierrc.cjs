@@ -1,4 +1,6 @@
 /** @type {import("prettier").Config} */
-const config = {};
+const config = {
+  // Note: inherits from .editorconfig - https://prettier.io/docs/en/configuration#editorconfig
+};
 
 module.exports = config;
