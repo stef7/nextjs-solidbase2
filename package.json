@@ -6,7 +6,7 @@
     "build": "bun check && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "bun test",
+    "test": "env NODE_ENV=test bun test",
     "check:format": "prettier . --check",
     "check": "concurrently bun:check:* bun:lint bun:test -c auto",
     "prepare": "husky install"
