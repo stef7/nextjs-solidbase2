@@ -7,6 +7,12 @@
     "prettier": "3.0.3"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "5.2.2"
+  },
+  "engines": {
+    "npm": "please-use-bun",
+    "yarn": "please-use-bun",
+    "pnpm": "please-use-bun",
+    "bun": ">= 1.0.0"
   }
 }
