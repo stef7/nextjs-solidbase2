@@ -1,5 +1,7 @@
 import { Layout } from "@/types/next-types";
 
+import "./globals.css";
+
 const RootLayout: Layout = ({ children }) => {
   return (
     <html lang="en">
