@@ -1,11 +1,5 @@
-import { Layout } from "@/types/next-types";
+import { Layout } from "@/types";
 
-const RootLayout: Layout = ({ children }) => {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
-};
+const RootLayout: Layout = ({ children }) => children;
 
 export default RootLayout;

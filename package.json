@@ -2,19 +2,22 @@
   "name": "nextjs-solidbase2",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently -k -r 'next dev' 'bun --hot src/app/cms/generate-types.ts' 'bunx decap-server'",
     "build": "bun check && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "bun test",
     "check:format": "prettier . --check",
-    "check": "concurrently bun:check:* bun:lint bun:test -c auto",
+    "check": "concurrently -c auto bun:lint bun:test bun:check:*",
     "prepare": "husky install"
   },
   "dependencies": {
+    "decap-cms-app": "3.0.7",
     "next": "^13.4.19",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-markdown": "^8.0.7",
+    "react-use": "^17.4.0"
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^12.0.1",
@@ -23,11 +26,13 @@
     "@types/react": "^18.2.21",
     "bun-types": "latest",
     "concurrently": "^8.2.1",
+    "decap-cms-core": "3.2.4",
     "eslint": "^8.49.0",
     "eslint-config-next": "^13.4.19",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
+    "netlify-ts": "^2.0.0",
     "prettier": "^3.0.3",
     "typescript": "^5.2.2"
   },
