@@ -1,6 +1,17 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo PATH: "$PATH"
+set -e
 
-bunx lint-staged
+echo "\$0: $0"
+echo "PATH: ${PATH}"
+echo "HOME: ${HOME}"
+echo "SHELL: ${SHELL}"
+echo "which git: $(which git)"
+echo "which bun: $(which bun)"
+
+if [ "$(git config commit.gpgsign)" != true ]; then
+  echo "commits must be signed" && exit 1
+fi
+
+bun x lint-staged
