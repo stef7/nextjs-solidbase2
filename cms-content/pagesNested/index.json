@@ -1,0 +1,18 @@
+{
+  "title": "Title",
+  "markdown": "**Markdown**\n\ntesteisnsafasdfgsdakfjhga sdkfj hasgdfkjashdf gaskdjfh \n\nsdfgsdfg\n\n> _",
+  "modules": [
+    {
+      "type": "carousel",
+      "header": "Image Gallery",
+      "template": "carousel.html",
+      "images": []
+    },
+    {
+      "type": "spotlight",
+      "header": "Spotlight",
+      "template": "spotlight.html",
+      "text": "Hello World"
+    }
+  ]
+}

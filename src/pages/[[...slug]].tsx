@@ -1,28 +1,35 @@
+import { getCmsContent } from "@/cms/api";
+import { ModulesSwitch } from "@/components/ModulesSwitch/ModulesSwitch";
+import { InferGetStaticPathsParams } from "@/types";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 
-type Params = { slug?: string[] };
-
-export const getStaticPaths = (async () => {
+export const getStaticPaths: GetStaticPaths<{ slug?: string[] }> = async () => {
   return {
-    paths: [
-      { params: { slug: [] } },
-      { params: { slug: ["one"] } },
-      { params: { slug: ["one", "two"] } },
-      { params: { slug: ["three"] } },
-    ],
+    paths: [{ params: { slug: ["one"] } }],
     fallback: "blocking",
   };
-}) satisfies GetStaticPaths<Params>;
+};
 
 export const getStaticProps = (async ({ params }) => {
-  if (params?.slug?.[0] === "404") return { notFound: true };
-  return { props: { params } };
-}) satisfies GetStaticProps<any, Params>;
+  const slug = params?.slug ?? [];
+  // if last segment is 'index', may be link from CMS preview path, so redirect to URI without
+  if (slug.at(-1) === "index") {
+    slug.pop();
+    return { redirect: { permanent: false, destination: `/${slug.join("/")}` } };
+  }
 
-export default function RootSlugPage({ params }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const page = getCmsContent("pagesNested", slug);
+  if (!page) return { notFound: true };
+
+  return { props: page };
+}) satisfies GetStaticProps<any, InferGetStaticPathsParams<typeof getStaticPaths>>;
+
+export default function RootSlugPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <pre className="p-8" data-testid="RootSlugPage">
-      {JSON.stringify({ params })}
-    </pre>
+    <section className="p-8" data-testid="RootSlugPage">
+      <ModulesSwitch>{props.modules}</ModulesSwitch>
+
+      <pre className="whitespace-pre-wrap">{JSON.stringify({ props }, null, 2)}</pre>
+    </section>
   );
 }

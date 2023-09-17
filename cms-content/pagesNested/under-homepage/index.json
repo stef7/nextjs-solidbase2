@@ -1,0 +1,29 @@
+{
+  "title": "Under homepage",
+  "markdown": "under home page\n\ntesting",
+  "modules": [
+    {
+      "type": "richContent",
+      "content": "Rich content\n\n![alt text](/cms-uploads/care.gif)"
+    },
+    {
+      "type": "spotlight",
+      "text": "This is a multi line...\n\ntext-\narea.",
+      "header": "head"
+    },
+    {
+      "type": "carousel",
+      "header": "Image Gallery",
+      "images": [
+        {
+          "image": "/cms-uploads/68747470733a2f2f6173736574732e76657263656c2e636f6d2f696d6167652f75706c6f61642f76313538383830353835382f7265706f7369746f726965732f76657263656c2f6c6f676f2e706e67.png",
+          "alt": "alt 2"
+        },
+        {
+          "image": "/cms-uploads/care.gif",
+          "alt": "alt"
+        }
+      ]
+    }
+  ]
+}
