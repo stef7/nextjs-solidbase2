@@ -1,15 +1,17 @@
 # nextjs-solidbase2
 
-To install dependencies:
+Uses `bun` as runtime and test framework.
 
-```bash
-bun install
-```
+However `pnpm` is required for package management due to React version conflicts between Next.js and Decap CMS.
 
-To run:
+## Install dependencies
 
-```bash
-bun run index.ts
-```
+`pnpm i`
 
-This project was created using `bun init` in bun v1.0.2. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+## Development
+
+`bun dev`
+
+## Build for deploy
+
+`bun run build`

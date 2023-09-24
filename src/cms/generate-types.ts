@@ -21,9 +21,10 @@ export type LOOKUP_FILE_COLLECTIONS={${cmsCollections
   .join(";")}};
 `;
 
-const typesPath = `${import.meta.dir}/types-generated.ts`;
+const typesRelative = `./types-generated.ts`;
+const typesPath = import.meta.resolveSync(typesRelative);
 await Bun.write(typesPath, [types, lookups].join(""));
 
-const GREEN = `\u001B[32m`;
+const CYAN = `\x1b[36m`;
 const RESET = `\u001B[0m`;
-console.log(`${GREEN}✔ CMS types generated:${RESET} ${typesPath}`);
+console.log(`${CYAN}CMS types generated:${RESET} ${typesPath}`);

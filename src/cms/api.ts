@@ -24,14 +24,34 @@ export type CmsModuleByKey<K extends CmsModuleKey> = Extract<CmsModule, { type: 
 
 export type CmsPreviewable = CmsAnyName & LOOKUP_PREVIEWABLE;
 
+function getCmsFolderFileSlugs(folderName: CmsNestedFolderName): string[][];
+function getCmsFolderFileSlugs(folderName: CmsFlatFolderName): string[];
+function getCmsFolderFileSlugs<C extends CmsFolderName>(folderName: C): string[][] | string[] {
+  const c = cmsCollections.find((c) => c.name === folderName && c.folder);
+  if (!c?.folder) throw new Error(`no match for ${folderName}`);
+
+  const cwd = fsj.cwd(c.folder);
+  return c.nested
+    ? cwd.find("./").map((path) =>
+        path
+          .replace(/[/\\]?index\.json$/, "")
+          .split(/[/\\]/g)
+          .filter(Boolean),
+      )
+    : cwd.list()?.map((path) => path.replace(/\.json$/, "")) ?? [];
+}
+export { getCmsFolderFileSlugs };
+
 type GetCmsContentParams =
-  | [nestedFolderName: CmsNestedFolderName, folderFilePath: string[]]
-  | [flatFolderName: CmsFlatFolderName, folderFilePath: string]
+  | [nestedFolderName: CmsNestedFolderName, nestedFolderFilePath: string[]]
+  | [flatFolderName: CmsFlatFolderName, flatFolderFilePath: string]
   | [fileName: CmsFileName];
 
 const getCmsContentPath = (...params: GetCmsContentParams) => {
   for (const { name, folder, files } of cmsCollections) {
+    // if params.length is 2, this is a folder-collection; else it's a file-collection file
     if (params.length === 2) {
+      // if params[1] is array, this is a nested folder
       const pathInFolder = Array.isArray(params[1]) ? [...params[1], "index"].join("/") : params[1];
       if (folder && name === params[0]) return `${folder}/${pathInFolder}.json`;
     } else {
@@ -40,16 +60,6 @@ const getCmsContentPath = (...params: GetCmsContentParams) => {
     }
   }
   throw new Error(`no match for ${params}`);
-};
-
-export const getCmsFolderFileSlugs = (folderName: CmsFolderName) => {
-  for (const { name, folder } of cmsCollections) {
-    if (folder && name === folderName) {
-      const paths = fsj.list(folder);
-      return paths?.map((p) => p);
-    }
-  }
-  throw new Error(`no match for ${folderName}`);
 };
 
 export const getCmsContent = <P extends GetCmsContentParams>(...params: P) => {

@@ -3,12 +3,12 @@ import { ModulesSwitch } from "@/components/ModulesSwitch/ModulesSwitch";
 import { InferGetStaticPathsParams } from "@/types";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 
-export const getStaticPaths: GetStaticPaths<{ slug?: string[] }> = async () => {
+export const getStaticPaths = (async () => {
   return {
     paths: [{ params: { slug: ["one"] } }],
     fallback: "blocking",
   };
-};
+}) satisfies GetStaticPaths<{ slug?: string[] }>;
 
 export const getStaticProps = (async ({ params }) => {
   const slug = params?.slug ?? [];
